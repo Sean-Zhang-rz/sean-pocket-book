@@ -10,7 +10,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    item = Item.new amount: 1
+    item = Item.new amount: params[:amount]
     if item.save
       render json: {data: item}
     else
