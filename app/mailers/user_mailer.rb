@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
   def welcome_email(email)
-    validation_code = ValidationCode.find_by_email(email)
+    validation_code = ValidationCode.order(create_at: :desc)find_by_email(email)
     @code = validation_code
     # @user = params[:user]
     # @url  = 'http://example.com/login'
