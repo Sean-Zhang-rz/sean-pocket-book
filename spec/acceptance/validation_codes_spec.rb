@@ -12,6 +12,8 @@ resource "验证码" do
       expect(status).to eq 200
       # json = JSON.parse(response_body)
       expect(response_body).to eq ' '
+      do_request
+      expect(status).to eq 429
     end
   end
 end
