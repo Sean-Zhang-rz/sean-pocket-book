@@ -3,15 +3,20 @@ require 'rails_helper'
 RSpec.describe "Items", type: :request do
   describe "账目获取" do
     it "分页" do
-      11.times do
-        Item.create amount: 100
-      end
-      expect(Item.count).to eq(11)
-      get '/api/v1/items'
+      user1 = User.create email: '1@qq.com'
+      user2 = User.create email: '2@qq.com'
+      11.times {Item.create amount: 100, user_id: user1.id}
+      11.times {Item.create amount: 100, user_id: user2.id}
+      expect(Item.count).to eq(22)
+      post '/api/v1/session', params: {email: user1.email, code: '123456'}
+      json = JSON.parse response.body
+      jwt = json['jwt']
+
+      get '/api/v1/items', headers: {'Authorization': "Bearer #{jwt}"} 
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
-      expect(json['data']['items'].size).to eq(5)
-      get '/api/v1/items?page=3'
+      expect(json['data']['items'].size).to eq(10)
+      get '/api/v1/items?page=2', headers: {'Authorization': "Bearer #{jwt}"}
       json = JSON.parse(response.body)
       expect(json['data']['items'].size).to eq(1)
     end
