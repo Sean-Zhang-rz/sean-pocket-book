@@ -8,8 +8,8 @@ class Api::V1::ItemsController < ApplicationController
       .page(params[:page])
     render json: { data: {
       items: items,
-      page: params[:page],
-      per_page: 10,
+      page: params[:page] || 1,
+      per_page: Item.default_per_page,
       count: Item.count
     }}
   end
