@@ -49,6 +49,20 @@ RSpec.describe "Items", type: :request do
       json = JSON.parse(response.body)
       expect(json['data']['items'].size).to eq(1)
     end
+    it "按时间筛选(边界2)" do
+      user1 = User.create email: '1@qq.com'
+      post '/api/v1/session', params: {email: user1.email, code: '123456'}
+      json = JSON.parse response.body
+      jwt = json['jwt']
+
+      item1 = Item.create amount: 200, created_at: '2018-01-01'
+      item2 = Item.create amount: 200, created_at: '2019-01-01'
+      get '/api/v1/items?created_brefore=2018-01-02', headers: {'Authorization': "Bearer #{jwt}"}
+      expect(response).to have_http_status 200
+      json = JSON.parse(response.body)
+      expect(json['data']['items'].size).to eq(1)
+      expect(json['data']['items'][0]['id']).to eq item1.id
+    end
   end
 
   describe "create" do
