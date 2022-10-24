@@ -7,16 +7,15 @@ RSpec.describe "Items", type: :request do
       user2 = User.create email: '2@qq.com'
       11.times {Item.create amount: 100, user_id: user1.id}
       11.times {Item.create amount: 100, user_id: user2.id}
-      expect(Item.count).to eq(22)
-      post '/api/v1/session', params: {email: user1.email, code: '123456'}
-      json = JSON.parse response.body
-      jwt = json['jwt']
+      # post '/api/v1/session', params: {email: user1.email, code: '123456'}
+      # json = JSON.parse response.body
+      # jwt = json['jwt']
 
-      get '/api/v1/items', headers: {'Authorization': "Bearer #{jwt}"} 
+      get '/api/v1/items', headers: user1.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['data']['items'].size).to eq(10)
-      get '/api/v1/items?page=2', headers: {'Authorization': "Bearer #{jwt}"}
+      get '/api/v1/items?page=2', headers: user1.generate_auth_header
       json = JSON.parse(response.body)
       expect(json['data']['items'].size).to eq(1)
     end
