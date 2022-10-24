@@ -1,9 +1,9 @@
 class Api::V1::ItemsController < ApplicationController
   def index
-    # current_user_id = request.env['current_user_id']
-    # return head :unauthorized if current_user_id.nil?
+    current_user_id = request.env['current_user_id']
+    return head :unauthorized if current_user_id.nil?
     items = Item
-      # .where({user_id: current_user_id})
+      .where({user_id: current_user_id})
       .where({created_at: params[:created_after]..params[:created_brefore]})
       .page(params[:page])
     render json: { data: {
