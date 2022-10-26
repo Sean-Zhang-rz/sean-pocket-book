@@ -20,4 +20,16 @@ class Api::V1::TagsController < ApplicationController
       render json: {errors: tag.errors}, status: 422
     end
   end
+
+  def update
+    current_user = User.find request.env['current_user_id']
+    return render status: 401 if current_user.nil?
+    tag = Tag.find params[:id]
+    tag.update params.permit(:name, :sign)
+    if tag.errors.empty?
+      render json: {data: tag}, status: 200
+    else
+      render json: {errors: tag.errors}, status: :unprocessable_entity
+    end
+  end
 end
