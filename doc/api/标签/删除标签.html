@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Orders API</title>
+    <title>标签 API</title>
     <meta charset="utf-8">
     <style>
       
@@ -106,38 +106,44 @@ table th, table td {
   </head>
   <body>
     <div class="container">
-      <h1>Orders API</h1>
+      <h1>标签 API</h1>
 
       <div class="article">
-        <h2>Listing items</h2>
-        <h3>GET /api/v1/items</h3>
+        <h2>删除标签</h2>
+        <h3>DELETE /api/v1/tags/:id</h3>
 
 
 
           <h3>Request</h3>
 
             <h4>Headers</h4>
-            <pre class="request headers">Accept: application/json
+            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNDcsImV4cCI6MTY2Njc3OTM4M30.NV9_GWmoxPVVHsGxaoYVOwtNXigcT3nN8j1Jp-wj5RQ
+Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">GET /api/v1/items</pre>
+          <pre class="request route highlight">DELETE /api/v1/tags/225</pre>
 
 
 
 
             <h3>Response</h3>
               <h4>Headers</h4>
-              <pre class="response headers">Cache-Control: no-cache
-X-Request-Id: cbc42fcc-d69c-49ac-972f-b909d5db044f
-X-Runtime: 0.000549
-Content-Length: 24</pre>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 0
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json
+Cache-Control: no-cache
+X-Request-Id: 53c55b0e-4003-4eca-ae9b-6629d0b1f3b5
+X-Runtime: 0.009761
+Content-Length: 0</pre>
             <h4>Status</h4>
-            <pre class="response status">401 Unauthorized</pre>
-              <h4>Body</h4>
-              <pre class="response body">{&quot;reason&quot;:&quot;token无效&quot;}</pre>
+            <pre class="response status">200 OK</pre>
       </div>
     </div>
   </body>
