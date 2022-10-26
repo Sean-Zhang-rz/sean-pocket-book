@@ -9,6 +9,15 @@ class Api::V1::TagsController < ApplicationController
       count: Tag.count
     }}
   end
+
+  def show
+    tag = Tag.find params[:id]
+    if not tag.user_id === request.env['current_user_id']
+      return render status: :forbidden
+    end
+    render json: { data: tag }
+  end
+
   def create
     current_user = User.find request.env['current_user_id']
     return render status: 401 if current_user.nil?
