@@ -52,14 +52,21 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  describe "create" do
-    xit "can create an item" do
+  describe "创建账目" do
+    it "未登录创建" do
+      post '/api/v1/items', params: {amount: 100}
+      expect(response).to have_http_status 401
+    end
+    it "登录创建" do
+      user1 = User.create email: '1@qq.com'
       expect {
-        post '/api/v1/items', params: {amount: 99}
-      }.to change {Item.count}.by(+1)
+        post '/api/v1/items', params: {amount: 99}, headers: user1.generate_auth_header
+      }.to change {Item.count}.by 1
       json = JSON.parse(response.body)
       p json
+      expect(json['data']['id']).to be_an(Numeric)
       expect(json['data']['amount']).to eq(99)
+      expect(json['data']['user_id']).to eq user1.id
     end
   end
 end
