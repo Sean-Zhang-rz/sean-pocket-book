@@ -22,4 +22,18 @@ RSpec.describe "Api::V1::Tags", type: :request do
       expect(json['data'].size).to eq 1
     end
   end
+  describe "创建标签" do
+    it '未登录创建标签' do
+      post '/api/v1/tags', params: {name: 'x', sign: 'x'}
+      expect(response).to have_http_status(401)
+    end
+    it '登录创建标签' do
+      user = User.create email: '770899447@qq.com'
+      post '/api/v1/tags', params: {name: 'x', sign: 'x'}, headers: user.generate_auth_header
+      expect(response).to have_http_status(200)
+      json = JSON.parse response.body
+      expect(json['data']['name']).to eq 'x'
+      expect(json['data']['sign']).to eq 'x'
+    end
+  end
 end
