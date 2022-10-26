@@ -55,14 +55,16 @@ RSpec.describe "Items", type: :request do
     end
     it "登录创建" do
       user1 = User.create email: '1@qq.com'
+      tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
+      tag2 = Tag.create name: 'tag2', sign: 'x', user_id: user1.id
       expect {
-        post '/api/v1/items', params: {amount: 99, tags_id: [1,2], happen_at: '2018-01-01'}, headers: user1.generate_auth_header
+        post '/api/v1/items', params: {amount: 99, tags_id: [tag1.id, tag2.id], happen_at: '2018-01-01T00:00:00+08:00'}, headers: user1.generate_auth_header
       }.to change {Item.count}.by 1
       json = JSON.parse(response.body)
       expect(json['data']['id']).to be_an(Numeric)
       expect(json['data']['amount']).to eq(99)
       expect(json['data']['user_id']).to eq user1.id
-      expect(json['data']['happen_at']).to eq '2018-01-01T00:00.000Z'
+      expect(json['data']['happen_at']).to eq '2017-12-31T16:00:00.000Z'
     end
     it "创建 amount 必填" do
       user1 = User.create email: '1@qq.com'
