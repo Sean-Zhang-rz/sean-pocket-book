@@ -85,4 +85,28 @@ RSpec.describe "Api::V1::Tags", type: :request do
       expect(json['data']['sign']).to eq 'x'
     end
   end
+   describe "删除标签" do
+    it '未登录删除标签' do
+      user = User.create email: '770899447@qq.com'
+      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      delete "/api/v1/tags/#{tag.id}", params: {name: 'y', sign: 'y'}
+      expect(response).to have_http_status(401)
+    end
+    it '登录删除标签' do
+      user = User.create email: '770899447@qq.com'
+      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      delete "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
+      expect(response).to have_http_status(200)
+      # json = JSON.parse response.body
+      tag.reload
+      expect(tag.deleted_at).not_to be eq nil
+    end
+    it '登录后删除别人的标签' do
+      user = User.create email: '770899447@qq.com'
+      user2 = User.create email: '770899448@qq.com'
+      tag = Tag.create name: 'x', sign: 'x', user_id: user2.id
+      delete "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
+      expect(response).to have_http_status(403)
+    end
+  end
 end
