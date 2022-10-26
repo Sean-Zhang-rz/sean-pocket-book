@@ -35,5 +35,12 @@ RSpec.describe "Api::V1::Tags", type: :request do
       expect(json['data']['name']).to eq 'x'
       expect(json['data']['sign']).to eq 'x'
     end
+    it '登录创建失败，没填name' do
+      user = User.create email: '770899447@qq.com'
+      post '/api/v1/tags', params: { sign: 'x'}, headers: user.generate_auth_header
+      expect(response).to have_http_status(422)
+      json = JSON.parse response.body
+      expect(json['errors']['name']).to be_an Array
+    end
   end
 end

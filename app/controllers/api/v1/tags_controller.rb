@@ -15,9 +15,9 @@ class Api::V1::TagsController < ApplicationController
 
     tag = Tag.new name: params[:name], sign: params[:sign], user_id: current_user.id
     if tag.save
-      render json: {data: tag}
+      render json: {data: tag}, status: 200
     else
-      render json: {errors: tag.errors}
+      render json: {errors: tag.errors}, status: 422
     end
   end
 end
