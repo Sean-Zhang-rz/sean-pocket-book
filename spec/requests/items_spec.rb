@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Items", type: :request do
   describe "账目获取" do
     it "分页" do
-      user1 = User.create email: '770899447@qq.com'
+      user1 = User.create email: '1@qq.com'
       user2 = User.create email: '2@qq.com'
       11.times {Item.create amount: 100, user_id: user1.id}
       11.times {Item.create amount: 100, user_id: user2.id}

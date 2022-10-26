@@ -36,7 +36,7 @@ resource "标签" do
       do_request
       expect(status).to eq 200
       json = JSON.parse(response_body)
-      expect(json['data']['id'].size).to eq tag.id
+      expect(json['data']['id']).to eq tag.id
     end
   end
   post "/api/v1/tags" do

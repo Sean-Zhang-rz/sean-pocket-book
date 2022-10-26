@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>标签 API</title>
+    <title>账目 API</title>
     <meta charset="utf-8">
     <style>
       
@@ -106,11 +106,11 @@ table th, table td {
   </head>
   <body>
     <div class="container">
-      <h1>标签 API</h1>
+      <h1>账目 API</h1>
 
       <div class="article">
-        <h2>修改标签</h2>
-        <h3>PATCH /api/v1/tags/:id</h3>
+        <h2>创建账目</h2>
+        <h3>POST /api/v1/items</h3>
 
           <h3>Parameters</h3>
           <table class="parameters table table-striped table-bordered table-condensed">
@@ -122,19 +122,35 @@ table th, table td {
             </thead>
             <tbody>
               <tr>
-                <td>
-                    <span class="name">name</span>
+                <td class="required">
+                    <span class="name">amount</span>
                 </td>
                 <td>
-                  <span class="description">名称</span>
+                  <span class="description">金额（单位：分）</span>
                 </td>
               </tr>
               <tr>
-                <td>
-                    <span class="name">sign</span>
+                <td class="required">
+                    <span class="name">kind</span>
                 </td>
                 <td>
-                  <span class="description">符号</span>
+                  <span class="description">类型</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="required">
+                    <span class="name">happen_at</span>
+                </td>
+                <td>
+                  <span class="description">发生时间</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="required">
+                    <span class="name">tags_id</span>
+                </td>
+                <td>
+                  <span class="description">标签列表（只传ID）</span>
                 </td>
               </tr>
             </tbody>
@@ -154,39 +170,39 @@ table th, table td {
                     <span class="name">data[id]</span>
                 </td>
                 <td>
-                  <span class="description">ID</span>
+                  <span class="description">Data</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">data[name]</span>
+                    <span class="name">data[amount]</span>
                 </td>
                 <td>
-                  <span class="description">名称</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                    <span class="name">data[sign]</span>
-                </td>
-                <td>
-                  <span class="description">符号</span>
+                  <span class="description">Data amount</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">data[user_id]</span>
+                    <span class="name">data[kind]</span>
                 </td>
                 <td>
-                  <span class="description">用户ID</span>
+                  <span class="description">Data kind</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">data[deleted_at]</span>
+                    <span class="name">data[happen_at]</span>
                 </td>
                 <td>
-                  <span class="description">删除时间</span>
+                  <span class="description">Data happen at</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">data[tags_id]</span>
+                </td>
+                <td>
+                  <span class="description">Data tags</span>
                 </td>
               </tr>
             </tbody>
@@ -195,18 +211,18 @@ table th, table td {
           <h3>Request</h3>
 
             <h4>Headers</h4>
-            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3NCwiZXhwIjoxNjY2NzkxNTQ1fQ.Ry3nR_Vcdq2DHIwrG3OHWYcKeVtyrPzJpi0sbdbKneQ
+            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2OSwiZXhwIjoxNjY2NzkxNTQ1fQ.ZAiosaHVll5bJzYPEtB-4_DEumafzjw-shCqGF1vR5k
 Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PATCH /api/v1/tags/63</pre>
+          <pre class="request route highlight">POST /api/v1/items</pre>
 
 
             <h4>Body</h4>
-            <pre class="request body">{"name":"x","sign":"x"}</pre>
+            <pre class="request body">{"amount":9900,"kind":"expenses","happen_at":"2020-10-30T00:00:00+08:00","tags_id":[48,49]}</pre>
 
 
             <h3>Response</h3>
@@ -219,23 +235,28 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;c88ee8047da938cba98accec8adc98d9&quot;
+ETag: W/&quot;cf0abbb5a20c226b57c4372c4006b80e&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 9b91d55b-45b8-4833-9ba7-13615885fab2
-X-Runtime: 0.006093
-Content-Length: 151</pre>
+X-Request-Id: 56d091c3-f562-48b8-b005-db3b6a3cd037
+X-Runtime: 0.005790
+Content-Length: 213</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
   &quot;data&quot;: {
-    &quot;name&quot;: &quot;x&quot;,
-    &quot;sign&quot;: &quot;x&quot;,
-    &quot;id&quot;: 63,
-    &quot;user_id&quot;: 74,
-    &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2022-10-26T11:39:05.378Z&quot;,
-    &quot;updated_at&quot;: &quot;2022-10-26T11:39:05.378Z&quot;
+    &quot;id&quot;: 44,
+    &quot;user_id&quot;: 69,
+    &quot;amount&quot;: 9900,
+    &quot;notes&quot;: null,
+    &quot;tags_id&quot;: [
+      48,
+      49
+    ],
+    &quot;happen_at&quot;: &quot;2020-10-29T16:00:00.000Z&quot;,
+    &quot;created_at&quot;: &quot;2022-10-26T11:39:05.253Z&quot;,
+    &quot;updated_at&quot;: &quot;2022-10-26T11:39:05.253Z&quot;,
+    &quot;kind&quot;: &quot;expenses&quot;
   }
 }</pre>
       </div>

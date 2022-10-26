@@ -109,36 +109,9 @@ table th, table td {
       <h1>标签 API</h1>
 
       <div class="article">
-        <h2>修改标签</h2>
-        <h3>PATCH /api/v1/tags/:id</h3>
+        <h2>获取单个标签</h2>
+        <h3>GET /api/v1/tags/:id</h3>
 
-          <h3>Parameters</h3>
-          <table class="parameters table table-striped table-bordered table-condensed">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                    <span class="name">name</span>
-                </td>
-                <td>
-                  <span class="description">名称</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                    <span class="name">sign</span>
-                </td>
-                <td>
-                  <span class="description">符号</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
 
           <h3>Response Fields</h3>
           <table class="response-fields table table-striped table-bordered table-condensed">
@@ -195,18 +168,16 @@ table th, table td {
           <h3>Request</h3>
 
             <h4>Headers</h4>
-            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3NCwiZXhwIjoxNjY2NzkxNTQ1fQ.Ry3nR_Vcdq2DHIwrG3OHWYcKeVtyrPzJpi0sbdbKneQ
+            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3MiwiZXhwIjoxNjY2NzkxNTQ1fQ.OgX4DPlXTl1dOn9WFvAm-BHreD6QJahT0gc2NeGluN4
 Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PATCH /api/v1/tags/63</pre>
+          <pre class="request route highlight">GET /api/v1/tags/61</pre>
 
 
-            <h4>Body</h4>
-            <pre class="request body">{"name":"x","sign":"x"}</pre>
 
 
             <h3>Response</h3>
@@ -219,23 +190,23 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;c88ee8047da938cba98accec8adc98d9&quot;
+ETag: W/&quot;47947bbf4c795aee178b572ed40661f9&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 9b91d55b-45b8-4833-9ba7-13615885fab2
-X-Runtime: 0.006093
+X-Request-Id: 09ab7d43-f44f-4081-b99b-2ebf0a859eb9
+X-Runtime: 0.003079
 Content-Length: 151</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
   &quot;data&quot;: {
+    &quot;id&quot;: 61,
+    &quot;user_id&quot;: 72,
     &quot;name&quot;: &quot;x&quot;,
     &quot;sign&quot;: &quot;x&quot;,
-    &quot;id&quot;: 63,
-    &quot;user_id&quot;: 74,
     &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2022-10-26T11:39:05.378Z&quot;,
-    &quot;updated_at&quot;: &quot;2022-10-26T11:39:05.378Z&quot;
+    &quot;created_at&quot;: &quot;2022-10-26T11:39:05.351Z&quot;,
+    &quot;updated_at&quot;: &quot;2022-10-26T11:39:05.351Z&quot;
   }
 }</pre>
       </div>
