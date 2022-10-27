@@ -4,7 +4,7 @@ class Api::V1::SessionsController < ApplicationController
     if Rails.env.test?
       return render status: :unauthorized if params[:code] != '123456'
     else
-      canSignIn = ValidationCodes.exists?(email: params[:email], code: params[:code], used_at: nil)
+      canSignIn = ValidationCode.exists?(email: params[:email], code: params[:code], used_at: nil)
       return render status: :unauthorized, json: {error: '验证码错误'} unless canSignIn 
     end
     # 找不到就创建一个新用户
