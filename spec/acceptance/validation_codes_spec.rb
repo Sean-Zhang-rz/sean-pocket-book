@@ -10,8 +10,6 @@ resource "验证码" do
       expect(UserMailer).to receive(:welcome_email).with(email)
       do_request
       expect(status).to eq 200
-      # json = JSON.parse(response_body)
-      expect(response_body).to eq ' '
       do_request
       expect(status).to eq 429
     end
