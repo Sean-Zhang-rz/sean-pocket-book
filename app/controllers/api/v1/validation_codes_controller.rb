@@ -7,9 +7,9 @@ class Api::V1::ValidationCodesController < ApplicationController
     end
     validation_code = ValidationCode.new email: params[:email], kind: 'sign_in'
     if validation_code.save
-      render status:200
+      render json: {data: validation_code.code, message: 'ok'}, status:200
     else
-      render json: {errors: validation_code.errors},status:400
+      render json: {errors: validation_code.errors}, status:422
     end
   end
 end
