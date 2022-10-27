@@ -9,3 +9,9 @@ zh-CN:
             email:
               invalid: 邮箱地址格式不正确
               blank: 邮箱地址不可为空
+  activemodel:
+    errors:
+      messages:
+        invalid: 格式不正确
+        blank: 必填
+        not_found: 找不到对应记录
