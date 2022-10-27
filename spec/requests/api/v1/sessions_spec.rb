@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Sessions", type: :request do
+RSpec.describe "Sessions", type: :request do
   describe "会话" do
     it "登录（创建会话）" do
       User.create email: '770899447@qq.com'
