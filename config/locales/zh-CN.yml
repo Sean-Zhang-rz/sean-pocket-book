@@ -8,3 +8,4 @@ zh-CN:
           attributes:
             email:
               invalid: 邮箱地址格式不正确
+              blank: 邮箱地址不可为空
