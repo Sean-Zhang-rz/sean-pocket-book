@@ -4,7 +4,7 @@ class Api::V1::SessionsController < ApplicationController
     session = Session.new params.permit :email, :code
     if session.valid?
       user = User.find_or_create_by email: session.email
-      render status: :ok, json: { jwt: user.generate_jwt }
+      render status: :ok, json: { data: { jwt: user.generate_jwt } }
     else
       render json: {errors: session.errors}, status: :unprocessable_entity
     end
