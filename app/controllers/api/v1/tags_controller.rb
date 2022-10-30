@@ -26,7 +26,9 @@ class Api::V1::TagsController < ApplicationController
     if tag.save
       render json: {data: tag}, status: 200
     else
-      render json: {errors: tag.errors}, status: 422
+      error1 = tag.errors.messages[:name][0]
+      error2 = tag.errors.messages[:sign][0]
+      render json: {msg: error1 || error2}, status: 422
     end
   end
 
@@ -36,7 +38,8 @@ class Api::V1::TagsController < ApplicationController
     if tag.errors.empty?
       render json: {data: tag}, status: 200
     else
-      render json: {errors: tag.errors}, status: :unprocessable_entity
+      error1 = tag.errors.messages[:id][0]
+      render json: {msg: error1}, status: :unprocessable_entity
     end
   end
 
@@ -49,7 +52,8 @@ class Api::V1::TagsController < ApplicationController
     if tag.save
       head 200
     else
-      render json: {errors: tag.errors}, status: :unprocessable_entity
+      error1 = tag.errors.messages[:id][0]
+      render json: {msg: error1}, status: :unprocessable_entity
     end
   end
 end

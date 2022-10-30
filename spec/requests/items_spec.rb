@@ -71,9 +71,7 @@ RSpec.describe "Items", type: :request do
       post '/api/v1/items', params: {}, headers: user1.generate_auth_header
       expect(response).to have_http_status 422
       json = JSON.parse(response.body)
-      expect(json['errors']['amount'][0]).to eq "can't be blank"
-      expect(json['errors']['tags_id'][0]).to eq "can't be blank"
-      expect(json['errors']['happen_at'][0]).to eq "can't be blank"
+      expect(json['msg']).to eq "金额不可为空"
     end
   end
   describe "统计分组" do

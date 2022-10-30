@@ -9,7 +9,7 @@ class Item < ApplicationRecord
   def check_tags_id_belong_to_user
     all_tags_ids = Tag.where(user_id: self.user_id).map(&:id)
     if self.tags_id & all_tags_ids != self.tags_id
-      self.errors.add :tags_id, '不属于当前用户'
+      self.errors.add :tags_id, '标签不属于当前用户'
     end
   end
 end

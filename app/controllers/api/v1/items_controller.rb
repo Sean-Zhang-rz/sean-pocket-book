@@ -20,7 +20,10 @@ class Api::V1::ItemsController < ApplicationController
     if item.save
       render json: {data: item}
     else
-      render json: {errors: item.errors}, status: 422
+      error1 = item.errors.messages[:amount][0]
+      error2 = item.errors.messages[:happen_at][0]
+      error3 = item.errors.messages[:tags_id][0]
+      render json: {msg: error1 || error2 || error3}, status: 422
     end
   end
 

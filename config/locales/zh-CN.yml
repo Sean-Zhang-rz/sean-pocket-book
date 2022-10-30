@@ -9,6 +9,20 @@ zh-CN:
             email:
               invalid: 邮箱地址格式不正确
               blank: 邮箱地址不可为空
+        item:
+          attributes:
+            tags_id:
+              blank: 必须选择一个标签
+            amount:
+              blank: 金额不可为空
+            happen_at:
+              blank: 时间不可为空
+        tag:
+          attributes:
+            name:
+              blank: 标签名称不可为空
+            sign:
+              blank: 标签符号不可为空
   activemodel:
     errors:
       messages:
