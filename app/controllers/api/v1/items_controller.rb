@@ -7,10 +7,12 @@ class Api::V1::ItemsController < ApplicationController
       .where({created_at: params[:created_after]..params[:created_before]})
       .page(params[:page])
     render json: { data: {
-      items: items,
-      page: params[:page] || 1,
-      per_page: Item.default_per_page,
-      count: Item.count
+      itemsList: items,
+      pager: {
+        page: params[:page] || 1,
+        per_page: Item.default_per_page,
+        count: Item.count
+      }
     }}
   end
 

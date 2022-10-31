@@ -2,7 +2,10 @@ class Api::V1::TagsController < ApplicationController
   def index
     current_user = User.find request.env['current_user_id']
     return render status: 401 if current_user.nil?
-    tags = Tag.where(kind: params[:kind]).where(user_id: current_user.id).page(params[:page])
+    tags = Tag
+      # .where(kind: params[:kind])
+      .where(user_id: current_user.id)
+      .page(params[:page])
     render json: {data: {
       tagList: tags, 
       pager: {
@@ -25,7 +28,7 @@ class Api::V1::TagsController < ApplicationController
     current_user = User.find request.env['current_user_id']
     return render status: 401 if current_user.nil?
 
-    tag = Tag.new name: params[:name], sign: params[:sign], user_id: current_user.id
+    tag = Tag.new name: params[:name], sign: params[:sign], kind: params[:kind], user_id: current_user.id
     if tag.save
       render json: {data: tag}, status: 200
     else
