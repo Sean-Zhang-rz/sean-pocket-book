@@ -7,14 +7,16 @@ class Api::V1::ItemsController < ApplicationController
     items = items.where(kind: params[:kind]) unless params[:kind].blank?
     items = items.page(params[:page])
     initValue = {expenses:0, income:0}
-    render json: { data: {
-      itemsList: items,
-      pager: {
-        page: params[:page] || 1,
-        per_page: Item.default_per_page,
-        count: Item.count
-      },
-    }}, methods: :tags
+    render json: { 
+      data: {
+        itemsList: items,
+        pager: {
+          page: params[:page] || 1,
+          per_page: Item.default_per_page,
+          count: Item.count
+        },
+      }
+    }, methods: :tags
   end
 
   def create
@@ -59,7 +61,9 @@ class Api::V1::ItemsController < ApplicationController
       .where(user_id: request.env['current_user_id'])
       .where(kind: params[:kind])
       .where(happen_at: params[:happened_after]..params[:happened_before])
+    tags = []
     items.each do |item|
+      tags += item.tags
       if params[:group_by] == 'happen_at'
         key = item.happen_at.in_time_zone('Beijing').strftime('%F')
         hash[key] ||= 0
@@ -72,8 +76,14 @@ class Api::V1::ItemsController < ApplicationController
         end
       end
     end
+    p tags[0]
     groups = hash
-      .map { |key, value| {"#{params[:group_by]}": key, amount: value} }
+      .map { |key, value| {
+        "#{params[:group_by]}": key, 
+        tag: tags.find { |tag| tag.id == key }, 
+        amount: value
+      } 
+    }
     if params[:group_by] == 'happen_at'
       groups.sort! { |a, b| a[:happen_at] <=> b[:happen_at] }
     elsif params[:group_by] == 'tag_id'
