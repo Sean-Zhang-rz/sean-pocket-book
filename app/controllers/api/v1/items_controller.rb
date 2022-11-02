@@ -62,25 +62,23 @@ class Api::V1::ItemsController < ApplicationController
       .where(kind: params[:kind])
       .where(happen_at: params[:happened_after]..params[:happened_before])
     tags = []
-    index = 0
     items.each do |item|
-      tags += item.tags
+      tags.push(item.tags)
       if params[:group_by] == 'happen_at'
         key = item.happen_at.in_time_zone('Beijing').strftime('%F')
         hash[key] ||= {}
-        hash[key]['tag'] = item.tags[0]
+        hash[key]['tag'] = item.tags
         hash[key]['amount'] ||= 0
         hash[key]['amount'] += item.amount
       else
         item.tag_ids.each do |tag_id|
           key = tag_id
           hash[key] ||= {}
-          hash[key]['tag'] = item.tags[0]
+          hash[key]['tag'] = item.tags
           hash[key]['amount']  ||= 0
           hash[key]['amount']  += item.amount
         end
       end
-      index += 1
     end
     groups = hash
       .map { |key, value| {

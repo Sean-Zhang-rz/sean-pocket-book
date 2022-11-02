@@ -19,6 +19,7 @@ class Item < ApplicationRecord
   end
 
   def tags
-    Tag.where(id: tag_ids)
+    tags = Tag.where(id: tag_ids)
+    return tags[0]
   end
 end
