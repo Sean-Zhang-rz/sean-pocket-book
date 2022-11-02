@@ -128,7 +128,6 @@ RSpec.describe "Items", type: :request do
       }, headers: user.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse response.body
-      p '------------'
       expect(json['data']['groups'].size).to eq 3
       expect(json['data']['groups'][0]['tag_id']).to eq tag3.id
       expect(json['data']['groups'][0]['amount']).to eq 500
