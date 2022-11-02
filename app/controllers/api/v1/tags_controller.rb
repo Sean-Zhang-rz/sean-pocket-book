@@ -57,6 +57,9 @@ class Api::V1::TagsController < ApplicationController
     end
     tag.deleted_at = Time.now
     if tag.save
+      if params[:with_items]
+        Item.where('tag_ids && ARRAY[?]::bigint[]', [tag.id]).destroy_all
+      end
       head 200
     else
       error1 = tag.errors.messages[:id][0]
