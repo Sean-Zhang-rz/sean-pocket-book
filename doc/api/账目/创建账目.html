@@ -147,7 +147,7 @@ table th, table td {
               </tr>
               <tr>
                 <td class="required">
-                    <span class="name">tags_id</span>
+                    <span class="name">tag_ids</span>
                 </td>
                 <td>
                   <span class="description">标签列表（只传ID）</span>
@@ -199,10 +199,10 @@ table th, table td {
               </tr>
               <tr>
                 <td>
-                    <span class="name">data[tags_id]</span>
+                    <span class="name">data[tag_ids]</span>
                 </td>
                 <td>
-                  <span class="description">Data tags</span>
+                  <span class="description">Data tag ids</span>
                 </td>
               </tr>
             </tbody>
@@ -211,7 +211,7 @@ table th, table td {
           <h3>Request</h3>
 
             <h4>Headers</h4>
-            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNjEsImV4cCI6MTY2NzM3OTE3NX0.JakVugeTjLBxwqBAjwWZjnse2BA90iUsAvaJEeSKo2c
+            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMiwiZXhwIjoxNjY3MzgwMzcwfQ.6K_OERYYTsQIDo-WVYA940ADvlFCVOKT0Vc9p70PKFc
 Accept: application/json
 Content-Type: application/json
 Host: example.org
@@ -222,7 +222,7 @@ Cookie: </pre>
 
 
             <h4>Body</h4>
-            <pre class="request body">{"amount":9900,"kind":"expenses","happen_at":"2020-10-30T00:00:00+08:00","tags_id":[676,677]}</pre>
+            <pre class="request body">{"amount":9900,"kind":"expenses","happen_at":"2020-10-30T00:00:00+08:00","tag_ids":[24,25]}</pre>
 
 
             <h3>Response</h3>
@@ -235,27 +235,27 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;321d5d15f5677ce5ed793b318b82e710&quot;
+ETag: W/&quot;da1d748cc79084800e483d80f0ba62f3&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: bb8bb36c-c41c-461e-84d6-8122747eaced
-X-Runtime: 0.011496
-Content-Length: 217</pre>
+X-Request-Id: cffd2ed8-9e56-48a9-a482-cd90a0edd3fd
+X-Runtime: 0.012551
+Content-Length: 213</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
   &quot;data&quot;: {
-    &quot;id&quot;: 147,
-    &quot;user_id&quot;: 261,
+    &quot;id&quot;: 33,
+    &quot;user_id&quot;: 12,
     &quot;amount&quot;: 9900,
     &quot;notes&quot;: null,
-    &quot;tags_id&quot;: [
-      676,
-      677
+    &quot;tag_ids&quot;: [
+      24,
+      25
     ],
     &quot;happen_at&quot;: &quot;2020-10-29T16:00:00.000Z&quot;,
-    &quot;created_at&quot;: &quot;2022-11-02T06:52:55.625Z&quot;,
-    &quot;updated_at&quot;: &quot;2022-11-02T06:52:55.625Z&quot;,
+    &quot;created_at&quot;: &quot;2022-11-02T07:12:50.945Z&quot;,
+    &quot;updated_at&quot;: &quot;2022-11-02T07:12:50.945Z&quot;,
     &quot;kind&quot;: &quot;expenses&quot;
   }
 }</pre>
