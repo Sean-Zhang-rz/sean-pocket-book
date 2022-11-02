@@ -7,6 +7,7 @@ resource "标签" do
   let(:auth) { "Bearer #{current_user.generate_jwt}" }
   get "/api/v1/tags" do
     parameter :page, '页码'
+    parameter :kind, '类型', in: ['expenses', 'income ']
     with_options :scope => :data do
       response_field :id, 'ID'
       response_field :name, "名称"
@@ -19,7 +20,7 @@ resource "标签" do
       do_request
       expect(status).to eq 200
       json = JSON.parse(response_body)
-      expect(json['data'].size).to eq 10
+      expect(json['data']['tagList'].size).to eq 10
     end
   end
   get "/api/v1/tags/:id" do
@@ -42,6 +43,7 @@ resource "标签" do
   post "/api/v1/tags" do
     parameter :name, '名称', required: true
     parameter :sign, '符号', required: true
+    parameter :kind, '类别', required: true
     with_options :scope => :data do
       response_field :id, 'ID'
       response_field :name, "名称"
@@ -51,19 +53,22 @@ resource "标签" do
     end
     let(:name) { 'x' }
     let(:sign) { 'x' }
+    let(:kind) { 'expenses' }
     example "创建标签" do
       do_request
       expect(status).to eq 200
       json = JSON.parse(response_body)
       expect(json['data']['name']).to eq name
       expect(json['data']['sign']).to eq sign
+      expect(json['data']['kind']).to eq kind
     end
   end
   patch "/api/v1/tags/:id" do
-    let (:tag) {Tag.create name: 'x', sign: 'x', user_id: current_user.id}
+    let (:tag) { Tag.create name: 'x', sign: 'x', kind: 'expenses', user_id: current_user.id } 
     let (:id) { tag.id }
     parameter :name, '名称' 
     parameter :sign, '符号'
+    parameter :kind, '类别', required: true
     with_options :scope => :data do
       response_field :id, 'ID'
       response_field :name, "名称"
@@ -73,6 +78,7 @@ resource "标签" do
     end
     let(:name) { 'x' }
     let(:sign) { 'x' }
+    let(:kind) { 'expenses' }
     example "修改标签" do
       do_request
       expect(status).to eq 200

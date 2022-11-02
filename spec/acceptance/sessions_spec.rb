@@ -17,7 +17,7 @@ resource "会话" do
       do_request
       expect(status).to eq 200
       json = JSON.parse(response_body)
-      expect(json['jwt']).to be_a String
+      expect(json['data']['jwt']).to be_a String
     end
   end
 end

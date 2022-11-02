@@ -24,7 +24,7 @@ resource "账目" do
       do_request
       expect(status).to eq 200
       json = JSON.parse(response_body)
-      expect(json['data']['items'].size).to eq 10
+      expect(json['data']['itemsList'].size).to eq 10
     end
   end
   post "/api/v1/items" do

@@ -137,6 +137,14 @@ table th, table td {
                   <span class="description">符号</span>
                 </td>
               </tr>
+              <tr>
+                <td class="required">
+                    <span class="name">kind</span>
+                </td>
+                <td>
+                  <span class="description">类别</span>
+                </td>
+              </tr>
             </tbody>
           </table>
 
@@ -195,18 +203,18 @@ table th, table td {
           <h3>Request</h3>
 
             <h4>Headers</h4>
-            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyOSwiZXhwIjoxNjY2ODQzNjkyfQ.PJwaaBvrGeEYoP0P2f0UPnw0H2Mk-Xw-UKyVByOYCwk
+            <pre class="request headers">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMjMsImV4cCI6MTY2NzM3NzU1MX0.AbB_KC1GVrjCiGa5lYhbR9zJNUK5DAMKSpHd08QCk_Y
 Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PATCH /api/v1/tags/65</pre>
+          <pre class="request route highlight">PATCH /api/v1/tags/424</pre>
 
 
             <h4>Body</h4>
-            <pre class="request body">{"name":"x","sign":"x"}</pre>
+            <pre class="request body">{"name":"x","sign":"x","kind":"expenses"}</pre>
 
 
             <h3>Response</h3>
@@ -219,11 +227,11 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;95582674f6b5cbafdcd5b2d3f99c2369&quot;
+ETag: W/&quot;52cfead1f9652930a066f8af6f5a58ee&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: e0b22233-f97b-496b-9e25-e8bf604209e2
-X-Runtime: 0.006781
-Content-Length: 151</pre>
+X-Request-Id: 7e1f189d-2a22-4a6f-beea-23607d010cf5
+X-Runtime: 0.010018
+Content-Length: 171</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
@@ -231,11 +239,12 @@ Content-Length: 151</pre>
   &quot;data&quot;: {
     &quot;name&quot;: &quot;x&quot;,
     &quot;sign&quot;: &quot;x&quot;,
-    &quot;id&quot;: 65,
-    &quot;user_id&quot;: 29,
+    &quot;id&quot;: 424,
+    &quot;user_id&quot;: 123,
     &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2022-10-27T02:08:12.182Z&quot;,
-    &quot;updated_at&quot;: &quot;2022-10-27T02:08:12.182Z&quot;
+    &quot;created_at&quot;: &quot;2022-11-02T06:25:51.040Z&quot;,
+    &quot;updated_at&quot;: &quot;2022-11-02T06:25:51.040Z&quot;,
+    &quot;kind&quot;: &quot;expenses&quot;
   }
 }</pre>
       </div>
