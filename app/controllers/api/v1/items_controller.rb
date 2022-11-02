@@ -7,11 +7,6 @@ class Api::V1::ItemsController < ApplicationController
     items = items.where(kind: params[:kind]) unless params[:kind].blank?
     items = items.page(params[:page])
     initValue = {expenses:0, income:0}
-    # summary = items.inject (initValue) { |result, item|
-    #   result[item.kind.to_sym] += item.amount
-    #   result
-    # }
-    # summary[:balance] = summary[:income] - summary[:expenses]
     render json: { data: {
       itemsList: items,
       pager: {
@@ -19,7 +14,6 @@ class Api::V1::ItemsController < ApplicationController
         per_page: Item.default_per_page,
         count: Item.count
       },
-      # summary: summary
     }}
   end
 
@@ -34,6 +28,29 @@ class Api::V1::ItemsController < ApplicationController
       error3 = item.errors.messages[:tags_id][0]
       render json: {msg: error1 || error2 || error3}, status: 422
     end
+  end
+
+  def balance
+    current_user_id = request.env["current_user_id"]
+    return head :unauthorized if current_user_id.nil?
+    items = Item.where({ user_id: current_user_id })
+      .where({ happen_at: params[:happen_after]..params[:happen_before] })
+    income_items = []
+    expenses_items = []
+    items.each {|item|
+      if item.kind === 'income'
+        income_items << item
+      else
+        expenses_items << item
+      end
+    }
+    income = income_items.sum(&:amount)
+    expenses = expenses_items.sum(&:amount)
+    render json: { data: {
+      income: income, 
+      expenses: expenses, 
+      balance: income - expenses 
+    }}
   end
 
   def summary

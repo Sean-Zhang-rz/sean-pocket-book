@@ -126,4 +126,25 @@ RSpec.describe "Items", type: :request do
       expect(json['data']['total']).to eq 600
     end
   end
+
+  describe "获取余额" do
+    it "未登录" do
+      get "/api/v1/items/balance?happen_after=2018-01-01&happen_before=2019-01-01"
+      expect(response).to have_http_status 401
+    end
+    it "登录" do
+      user = create :user
+      create :item, user: user, kind: 'expenses', amount: 100, happen_at: '2018-03-02T16:00:00.000Z'
+      create :item, user: user, kind: 'expenses', amount: 200, happen_at: '2018-03-02T16:00:00.000Z'
+      create :item, user: user, kind: 'income', amount: 100, happen_at: '2018-03-02T16:00:00.000Z'
+      create :item, user: user, kind: 'income', amount: 200, happen_at: '2018-03-02T16:00:00.000Z'
+
+      get "/api/v1/items/balance?happen_after=2018-03-02T15:00:00.000Z&happen_before=2018-03-02T17:00:00.000Z", headers: user.generate_auth_header
+      expect(response).to have_http_status 200
+      json = JSON.parse(response.body)
+      expect(json['data']["income"]).to eq 300
+      expect(json['data']["expenses"]).to eq 300
+      expect(json['data']["balance"]).to eq 0
+    end
+  end
 end
