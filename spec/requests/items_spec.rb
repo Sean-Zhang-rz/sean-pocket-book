@@ -4,16 +4,19 @@ RSpec.describe "Items", type: :request do
   describe "账目获取" do
     it "分页" do
       user1 = User.create email: '1@qq.com'
-      user2 = User.create email: '2@qq.com'
+      # user2 = User.create email: '2@qq.com'
+      # user1 = create :user
       11.times {Item.create amount: 100, user_id: user1.id}
-      11.times {Item.create amount: 100, user_id: user2.id}
+      # 11.times {Item.create amount: 100, user_id: user2.id}
       get '/api/v1/items', headers: user1.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
-      expect(json['data']['items'].size).to eq(10)
+      p '000000000000000000'
+      p json['data']
+      expect(json['data']['itemsList'].size).to eq(10)
       get '/api/v1/items?page=2', headers: user1.generate_auth_header
       json = JSON.parse(response.body)
-      expect(json['data']['items'].size).to eq(1)
+      expect(json['data']['itemsList'].size).to eq(1)
     end
 
     it "按时间筛选" do
@@ -24,9 +27,9 @@ RSpec.describe "Items", type: :request do
       get '/api/v1/items?created_after=2018-01-01&created_before=2018-01-02&', headers: user1.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse(response.body)
-      expect(json['data']['items'].size).to eq(2)
-      expect(json['data']['items'][0]['id']).to eq item1.id
-      expect(json['data']['items'][1]['id']).to eq item2.id
+      expect(json['data']['itemsList'].size).to eq(2)
+      expect(json['data']['itemsList'][0]['id']).to eq item1.id
+      expect(json['data']['itemsList'][1]['id']).to eq item2.id
     end
     it "按时间筛选(边界)" do
       user1 = User.create email: '1@qq.com'
@@ -34,7 +37,7 @@ RSpec.describe "Items", type: :request do
       get '/api/v1/items?created_after=2018-01-01&created_before=2018-01-02', headers: user1.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse(response.body)
-      expect(json['data']['items'].size).to eq(1)
+      expect(json['data']['itemsList'].size).to eq(1)
     end
     it "按时间筛选(边界2)" do
       user1 = User.create email: '1@qq.com'
@@ -43,8 +46,8 @@ RSpec.describe "Items", type: :request do
       get '/api/v1/items?created_before=2018-01-02', headers: user1.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse(response.body)
-      expect(json['data']['items'].size).to eq(1)
-      expect(json['data']['items'][0]['id']).to eq item1.id
+      expect(json['data']['itemsList'].size).to eq(1)
+      expect(json['data']['itemsList'][0]['id']).to eq item1.id
     end
   end
 

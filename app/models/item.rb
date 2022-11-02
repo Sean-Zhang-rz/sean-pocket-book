@@ -3,6 +3,9 @@ class Item < ApplicationRecord
   validates :amount, presence: true
   validates :tags_id, presence: true
   validates :happen_at, presence: true
+  validates :kind, presence: true
+
+  belongs_to :user
 
   validate :check_tags_id_belong_to_user
 
