@@ -72,7 +72,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
     end
     it '登录修改标签' do
       user = create :user
-      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      tag = Tag.create name: 'x', sign: 'x', kind: 'expenses', user_id: user.id
       patch "/api/v1/tags/#{tag.id}", params: {name: 'y', sign: 'y'}, headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse response.body
@@ -81,7 +81,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
     end
     it '登录部分修改，没填name' do
       user = create :user
-      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      tag = Tag.create name: 'x', sign: 'x', kind: 'expenses', user_id: user.id
       patch "/api/v1/tags/#{tag.id}", params: { sign: 'y'}, headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse response.body
@@ -90,7 +90,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
     end
     it '登录部分修改，没填sign' do
       user = create :user
-      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      tag = Tag.create name: 'x', sign: 'x', kind: 'expenses', user_id: user.id
       patch "/api/v1/tags/#{tag.id}", params: { name: 'y'}, headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse response.body
@@ -101,13 +101,13 @@ RSpec.describe "Api::V1::Tags", type: :request do
    describe "删除标签" do
     it '未登录删除标签' do
       user = create :user
-      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      tag = Tag.create name: 'x', sign: 'x', kind: 'expenses', user_id: user.id
       delete "/api/v1/tags/#{tag.id}", params: {name: 'y', sign: 'y'}
       expect(response).to have_http_status(401)
     end
     it '登录删除标签' do
       user = create :user
-      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      tag = Tag.create name: 'x', sign: 'x', kind: 'expenses', user_id: user.id
       delete "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       # json = JSON.parse response.body
@@ -117,7 +117,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
     it '登录后删除别人的标签' do
       user = create :user
       user2 = User.create email: '770899448@qq.com'
-      tag = Tag.create name: 'x', sign: 'x', user_id: user2.id
+      tag = Tag.create name: 'x', sign: 'x', kind: 'expenses', user_id: user2.id
       delete "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
       expect(response).to have_http_status(403)
     end

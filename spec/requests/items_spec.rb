@@ -67,7 +67,7 @@ RSpec.describe "Items", type: :request do
       tag1 = create :tag, user: user1
       tag2 = create :tag, user: user1
       expect {
-        post '/api/v1/items', params: {amount: 99, tag_ids: [tag1.id, tag2.id], happen_at: '2018-01-01T00:00:00+08:00'}, headers: user1.generate_auth_header
+        post '/api/v1/items', params: {amount: 99, tag_ids: [tag1.id, tag2.id], kind: 'expenses', happen_at: '2018-01-01T00:00:00+08:00'}, headers: user1.generate_auth_header
       }.to change {Item.count}.by 1
       json = JSON.parse(response.body)
       expect(json['data']['id']).to be_an(Numeric)
@@ -86,7 +86,7 @@ RSpec.describe "Items", type: :request do
   describe "统计分组" do
     it '按天分组' do
       user = User.create! email: '1@qq.com'
-      tag = Tag.create! name: 'tag1', sign: 'x', user_id: user.id
+      tag = Tag.create! name: 'tag1', sign: 'x', kind: 'expenses',  user_id: user.id
       Item.create! amount: 100, kind: 'expenses', tag_ids: [tag.id], happen_at: '2018-06-18T00:00:00+08:00', user_id: user.id
       Item.create! amount: 200, kind: 'expenses', tag_ids: [tag.id], happen_at: '2018-06-18T00:00:00+08:00', user_id: user.id
       Item.create! amount: 100, kind: 'expenses', tag_ids: [tag.id], happen_at: '2018-06-20T00:00:00+08:00', user_id: user.id
@@ -112,9 +112,9 @@ RSpec.describe "Items", type: :request do
     end
     it '按tag_id分组' do
       user = User.create! email: '1@qq.com'
-      tag1 = Tag.create! name: 'tag1', sign: 'x', user_id: user.id
-      tag2 = Tag.create! name: 'tag2', sign: 'x', user_id: user.id
-      tag3 = Tag.create! name: 'tag3', sign: 'x', user_id: user.id
+      tag1 = Tag.create! name: 'tag1', sign: 'x', kind: 'expenses', user_id: user.id
+      tag2 = Tag.create! name: 'tag2', sign: 'x', kind: 'expenses',  user_id: user.id
+      tag3 = Tag.create! name: 'tag3', sign: 'x', kind: 'expenses',  user_id: user.id
       Item.create! amount: 100, kind: 'expenses', tag_ids: [tag1.id, tag2.id], happen_at: '2018-06-18T00:00:00+08:00', user_id: user.id
       Item.create! amount: 200, kind: 'expenses', tag_ids: [tag2.id, tag3.id], happen_at: '2018-06-18T00:00:00+08:00', user_id: user.id
       Item.create! amount: 300, kind: 'expenses', tag_ids: [tag3.id, tag1.id], happen_at: '2018-06-20T00:00:00+08:00', user_id: user.id
