@@ -9,8 +9,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
     it "登录获取标签" do
       user = create :user
       user1 = create :user
-      11.times do |i| Tag.create name: "tag#{i}", user_id: user.id, sign: 'x' end
-      11.times do |i| Tag.create name: "tag#{i}", user_id: user1.id, sign: 'x' end
+      create_list :tag, 11, user: user
       get '/api/v1/tags', headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse response.body
@@ -23,8 +22,8 @@ RSpec.describe "Api::V1::Tags", type: :request do
     end
     it "根据kind获取标签" do
       user = create :user
-      11.times do |i| Tag.create name: "tag#{i}", user_id: user.id, sign: 'x', kind: 'expenses' end
-      11.times do |i| Tag.create name: "tag#{i}", user_id: user.id, sign: 'x', kind: 'income' end
+      create_list :tag, 11, user: user, kind: 'expenses'
+      create_list :tag, 11, user: user, kind: 'income'
       get '/api/v1/tags', headers: user.generate_auth_header, params: { kind: 'expenses'}
       expect(response).to have_http_status(200)
       json = JSON.parse response.body
@@ -125,23 +124,21 @@ RSpec.describe "Api::V1::Tags", type: :request do
   end
   describe "获取单个标签" do
     it "未登录获取标签" do
-      user = create :user
-      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
+      tag = create :tag
       get "/api/v1/tags/#{tag.id}"
       expect(response).to have_http_status(401)
     end
     it "登录获取标签" do
-      user = create :user
-      tag = Tag.create name: 'x', sign: 'x', user_id: user.id
-      get "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
+      tag = create :tag
+      get "/api/v1/tags/#{tag.id}", headers: tag.user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse response.body
       expect(json['data']['id']).to eq tag.id
     end
     it "登录后获取不属于自己的标签" do
       user = create :user
-      user1 = User.create email: '770899448@qq.com'
-      tag = Tag.create name: 'x', sign: 'x', user_id: user1.id
+      user1 = create :user
+      tag = create :tag, user: user1
       get "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
       expect(response).to have_http_status(403)
     end

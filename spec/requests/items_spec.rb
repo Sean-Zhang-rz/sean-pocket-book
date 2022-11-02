@@ -57,8 +57,8 @@ RSpec.describe "Items", type: :request do
     end
     it "登录创建" do
       user1 = create :user
-      tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
-      tag2 = Tag.create name: 'tag2', sign: 'x', user_id: user1.id
+      tag1 = create :tag, user: user1
+      tag2 = create :tag, user: user1
       expect {
         post '/api/v1/items', params: {amount: 99, tag_ids: [tag1.id, tag2.id], happen_at: '2018-01-01T00:00:00+08:00'}, headers: user1.generate_auth_header
       }.to change {Item.count}.by 1
