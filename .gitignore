@@ -32,3 +32,4 @@
 
 /vendor/cache/
 /config/credentials.yml.enc
+/doc/api
