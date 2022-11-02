@@ -18,7 +18,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    item = Item.new params.permit(:amount, :happen_at, tag_ids: [])
+    item = Item.new params.permit(:amount, :happen_at, :kind, tag_ids: [])
     item.user_id = request.env['current_user_id']
     if item.save
       render json: {data: item}
