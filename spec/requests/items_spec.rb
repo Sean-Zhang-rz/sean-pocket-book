@@ -4,7 +4,7 @@ RSpec.describe "Items", type: :request do
   describe "账目获取" do
     it "分页" do
       user = create :user
-      11.times { Item.create amount: 100, user_id: user.id }
+      create_list :item, 11, user:user
       get '/api/v1/items', headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
@@ -18,9 +18,9 @@ RSpec.describe "Items", type: :request do
 
     it "按时间筛选" do
       user1 = create :user
-      item1 = Item.create amount: 100, created_at: Time.new(2018, 1, 2), user_id: user1.id
-      item2 = Item.create amount: 100, created_at: Time.new(2018, 1, 2), user_id: user1.id
-      item3 = Item.create amount: 200, created_at: Time.new(2018, 1, 1)
+      item1 = create :item, created_at: "2018-01-02", user: user1
+      item2 = create :item, created_at: "2018-01-02", user: user1
+      item3 = create :item, created_at: "2019-01-01", user: user
       get '/api/v1/items?created_after=2018-01-01&created_before=2018-01-02&', headers: user1.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse(response.body)
