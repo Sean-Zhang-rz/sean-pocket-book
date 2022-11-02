@@ -3,9 +3,8 @@ require 'rails_helper'
 RSpec.describe "Items", type: :request do
   describe "账目获取" do
     it "分页" do
-      user1 = User.create email: '1@qq.com'
+      user1 = create :user
       # user2 = User.create email: '2@qq.com'
-      # user1 = create :user
       11.times {Item.create amount: 100, user_id: user1.id}
       # 11.times {Item.create amount: 100, user_id: user2.id}
       get '/api/v1/items', headers: user1.generate_auth_header
@@ -20,7 +19,7 @@ RSpec.describe "Items", type: :request do
     end
 
     it "按时间筛选" do
-      user1 = User.create email: '1@qq.com'
+      user1 = create :user
       item1 = Item.create amount: 100, created_at: Time.new(2018, 1, 2), user_id: user1.id
       item2 = Item.create amount: 100, created_at: Time.new(2018, 1, 2), user_id: user1.id
       item3 = Item.create amount: 200, created_at: Time.new(2018, 1, 1)
@@ -32,7 +31,7 @@ RSpec.describe "Items", type: :request do
       expect(json['data']['itemsList'][1]['id']).to eq item2.id
     end
     it "按时间筛选(边界)" do
-      user1 = User.create email: '1@qq.com'
+      user1 = create :user
       item3 = Item.create amount: 200, created_at: '2018-01-01', user_id: user1.id
       get '/api/v1/items?created_after=2018-01-01&created_before=2018-01-02', headers: user1.generate_auth_header
       expect(response).to have_http_status 200
@@ -40,7 +39,7 @@ RSpec.describe "Items", type: :request do
       expect(json['data']['itemsList'].size).to eq(1)
     end
     it "按时间筛选(边界2)" do
-      user1 = User.create email: '1@qq.com'
+      user1 = create :user
       item1 = Item.create amount: 200, created_at: '2018-01-01', user_id: user1.id
       item2 = Item.create amount: 200, created_at: '2019-01-01', user_id: user1.id
       get '/api/v1/items?created_before=2018-01-02', headers: user1.generate_auth_header
@@ -57,7 +56,7 @@ RSpec.describe "Items", type: :request do
       expect(response).to have_http_status 401
     end
     it "登录创建" do
-      user1 = User.create email: '1@qq.com'
+      user1 = create :user
       tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
       tag2 = Tag.create name: 'tag2', sign: 'x', user_id: user1.id
       expect {
@@ -70,7 +69,7 @@ RSpec.describe "Items", type: :request do
       expect(json['data']['happen_at']).to eq '2017-12-31T16:00:00.000Z'
     end
     it "创建 amount 必填" do
-      user1 = User.create email: '1@qq.com'
+      user1 = create :user
       post '/api/v1/items', params: {}, headers: user1.generate_auth_header
       expect(response).to have_http_status 422
       json = JSON.parse(response.body)
