@@ -14,7 +14,7 @@ class Api::V1::ItemsController < ApplicationController
         per_page: Item.default_per_page,
         count: Item.count
       },
-    }}
+    }}, methods: :tags
   end
 
   def create
