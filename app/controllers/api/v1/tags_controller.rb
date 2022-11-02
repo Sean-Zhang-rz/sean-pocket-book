@@ -52,15 +52,14 @@ class Api::V1::TagsController < ApplicationController
 
   def destroy
     tag = Tag.find params[:id]
-    if not tag.user_id === request.env['current_user_id']
-      return render status: :forbidden
-    end
+    return head :forbidden unless tag.user_id == request.env['current_user_id']
     tag.deleted_at = Time.now
     ActiveRecord::Base.transaction do
       begin
         if params[:with_items] == 'true'
-          Item.where('tag_ids && ARRAY[?]::bigint[]', [tag.id])
-              .update!(deleted_at: Time.now)
+          p '-------------'
+          p '要删除item'
+          Item.where('tag_ids && ARRAY[?]::bigint[]', [tag.id]).update!(deleted_at: Time.now)
         end
         tag.save!
       rescue
