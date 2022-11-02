@@ -56,14 +56,17 @@ class Api::V1::TagsController < ApplicationController
       return render status: :forbidden
     end
     tag.deleted_at = Time.now
-    if tag.save
-      if params[:with_items]
-        Item.where('tag_ids && ARRAY[?]::bigint[]', [tag.id]).destroy_all
+    ActiveRecord::Base.transaction do
+      begin
+        tag.save!
+        if params[:with_items]
+          Item.where('tag_ids && ARRAY[?]::bigint[]', [tag.id])
+              .update!(deleted_at: Time.now)
+        end
+      rescue
+        return head 422
       end
       head 200
-    else
-      error1 = tag.errors.messages[:id][0]
-      render json: {msg: error1}, status: :unprocessable_entity
     end
   end
 end
