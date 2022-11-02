@@ -22,4 +22,8 @@ class Item < ApplicationRecord
     tags = Tag.where(id: tag_ids)
     return tags[0]
   end
+  
+  def self.default_scope
+    where(deleted_at: nil)
+  end
 end

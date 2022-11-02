@@ -83,7 +83,7 @@ class Api::V1::ItemsController < ApplicationController
     groups = hash
       .map { |key, value| {
         "#{params[:group_by]}": key, 
-        tag: value['tag'], # tags.find { |tag| tag.id == key }, 
+        tag: value['tag'], 
         amount: value['amount']
       } 
     }
