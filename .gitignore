@@ -31,4 +31,4 @@
 /config/credentials/production.key
 
 /vendor/cache/
-
+/config/credentials.yml.enc
