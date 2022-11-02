@@ -4,11 +4,11 @@ RSpec.describe "Items", type: :request do
   describe "账目获取" do
     it "分页" do
       user = create :user
-      create_list :item, 11, user:user
+      create_list :item, Item.default_per_page + 1, user:user
       get '/api/v1/items', headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
-      expect(json['data']['itemsList'].size).to eq(10)
+      expect(json['data']['itemsList'].size).to eq(Item.default_per_page)
       get '/api/v1/items?page=2', headers: user.generate_auth_header
       json = JSON.parse(response.body)
       expect(json['data']['itemsList'].size).to eq(1)

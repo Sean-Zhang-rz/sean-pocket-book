@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  # paginates_per 25
+  paginates_per 25
   enum kind: { expenses: 1, income: 2 }
   validates :amount, presence: true
   validates :tag_ids, presence: true
