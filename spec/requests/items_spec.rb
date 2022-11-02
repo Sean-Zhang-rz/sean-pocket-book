@@ -3,17 +3,15 @@ require 'rails_helper'
 RSpec.describe "Items", type: :request do
   describe "账目获取" do
     it "分页" do
-      user1 = create :user
-      # user2 = User.create email: '2@qq.com'
-      11.times {Item.create amount: 100, user_id: user1.id}
-      # 11.times {Item.create amount: 100, user_id: user2.id}
-      get '/api/v1/items', headers: user1.generate_auth_header
+      user = create :user
+      11.times { Item.create amount: 100, user_id: user.id }
+      get '/api/v1/items', headers: user.generate_auth_header
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       p '000000000000000000'
-      p json['data']
+      p response
       expect(json['data']['itemsList'].size).to eq(10)
-      get '/api/v1/items?page=2', headers: user1.generate_auth_header
+      get '/api/v1/items?page=2', headers: user.generate_auth_header
       json = JSON.parse(response.body)
       expect(json['data']['itemsList'].size).to eq(1)
     end

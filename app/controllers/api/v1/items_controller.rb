@@ -2,18 +2,16 @@ class Api::V1::ItemsController < ApplicationController
   def index
     current_user_id = request.env['current_user_id']
     return head :unauthorized if current_user_id.nil?
-    items = Item
-      .where({user_id: current_user_id})
+    items = Item.where({user_id: current_user_id})
       .where({created_at: params[:created_after]..params[:created_before]})
     items = items.where(kind: params[:kind]) unless params[:kind].blank?
     items = items.page(params[:page])
-      # .page(params[:page])
     initValue = {expenses:0, income:0}
-    summary = items.inject (initValue) { |result, item|
-      result[item.kind.to_sym] += item.amount
-      result
-    }
-    summary[:balance] = summary[:income] - summary[:expenses]
+    # summary = items.inject (initValue) { |result, item|
+    #   result[item.kind.to_sym] += item.amount
+    #   result
+    # }
+    # summary[:balance] = summary[:income] - summary[:expenses]
     render json: { data: {
       itemsList: items,
       pager: {
@@ -21,7 +19,7 @@ class Api::V1::ItemsController < ApplicationController
         per_page: Item.default_per_page,
         count: Item.count
       },
-      summary: summary
+      # summary: summary
     }}
   end
 
