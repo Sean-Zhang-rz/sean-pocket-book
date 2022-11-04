@@ -1,11 +1,11 @@
 DB_PASSWORD=123456
-container_name=mangosteen_production
+container_name=mangosteen-prod-1
 
 version=$(cat mangosteen_deploy/version)
 
 echo 'docker build ...'
 docker build mangosteen_deploy -t mangosteen:$version
-if [ "$(docker ps -aq -f name=^mangosteen_production$)" ]; then
+if [ "$(docker ps -aq -f name=^mangosteen-prod-1$)" ]; then
   echo 'docker rm ...'
   docker rm -f $container_name
 fi

@@ -5,11 +5,11 @@ RUN mkdir /mangosteen
 RUN bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 WORKDIR /mangosteen
 ADD mangosteen-*.tar.gz ./
-# ADD Gemfile /mangosteen
-# ADD Gemfile.lock /mangosteen
-# ADD vendor/cache /mangosteen/vendor/cache
+ADD Gemfile /mangosteen
+ADD Gemfile.lock /mangosteen
+ADD vendor/cache /mangosteen/vendor/cache
 RUN bundle config set --local without 'development test'
-RUN bundle install
+RUN bundle install --local
 
 
 ENTRYPOINT bundle exec puma
