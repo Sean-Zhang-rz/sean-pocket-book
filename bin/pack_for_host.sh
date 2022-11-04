@@ -1,4 +1,4 @@
-dir=oh-my-env-1
+dir=oh-my-env
 
 time=$(date +'%Y%m%d-%H%M%S')
 dist=tmp/mangosteen-$time.tar.gz

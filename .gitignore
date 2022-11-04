@@ -29,6 +29,7 @@
 /config/master.key
 /config/credentials.yml.enc
 /config/credentials/production.key
+config/credentials/production.yml.enc
 
 /vendor/cache/
 /config/credentials.yml.enc
