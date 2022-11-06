@@ -7,8 +7,8 @@ WORKDIR /mangosteen
 ADD mangosteen-*.tar.gz ./
 ADD Gemfile /mangosteen
 ADD Gemfile.lock /mangosteen
-ADD vendor/cache /mangosteen/vendor/cache
-RUN bundle config set --local without 'development test'
+ADD vendor/cache.tar.gz /mangosteen/vendor/
+ADD vendor/rspec_api_documentation.tar.gz /mangosteen/vendor/ 
 RUN bundle install --local
 
 
