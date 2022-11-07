@@ -14,14 +14,17 @@ vendor_1=rspec_api_documentation
 api_dir=$current_dir/../doc/api
 
 function title {
-  echo 
+  echo
   echo "###############################################################################"
   echo "## $1"
-  echo "###############################################################################" 
-  echo 
+  echo "###############################################################################"
+  echo
 }
 
-
+title '运行测试用例'
+rspec || exit 1
+title '重新生成文档'
+bin/rails docs:generate || exit 2
 mkdir -p $cache_dir
 title '打包源代码'
 tar --exclude="tmp/cache/*" --exclude="tmp/deploy_cache/*" --exclude="vendor/*" -cz -f $dist *
@@ -49,4 +52,4 @@ scp -r $api_dir $user@$ip:$deploy_dir/
 title '上传版本号'
 ssh $user@$ip "echo $time > $deploy_dir/version"
 title '执行远程脚本'
-ssh $user@$ip "export version=$time; /bin/bash $deploy_dir/setup_remote.sh"
+ssh $user@$ip "export version=$time; export need_migrate=$need_migrate; /bin/bash $deploy_dir/setup_remote.sh"

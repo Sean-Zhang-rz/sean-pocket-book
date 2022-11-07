@@ -19,7 +19,7 @@ RSpec.describe "Items", type: :request do
       item1 = create :item, happen_at: "2018-01-02", user: user1
       item2 = create :item, happen_at: "2018-01-02", user: user1
       item3 = create :item, happen_at: "2019-01-01", user: user1
-      get '/api/v1/items?happen_after=2018-01-01&happen_before=2018-01-02&', headers: user1.generate_auth_header
+      get '/api/v1/items?happen_after=2018-01-01&happen_before=2018-01-02', headers: user1.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse(response.body)
       expect(json['data']['itemsList'].size).to eq(2)
@@ -73,7 +73,6 @@ RSpec.describe "Items", type: :request do
       expect(json['data']['id']).to be_an(Numeric)
       expect(json['data']['amount']).to eq(99)
       expect(json['data']['user_id']).to eq user1.id
-      expect(json['data']['happen_at']).to eq '2017-12-31T16:00:00.000Z'
     end
     it "创建 amount 必填" do
       user1 = create :user

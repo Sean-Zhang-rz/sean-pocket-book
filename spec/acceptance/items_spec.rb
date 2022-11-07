@@ -7,14 +7,14 @@ resource "账目" do
   get "/api/v1/items" do
     authentication :basic, :auth
     parameter :page, '页码'
-    parameter :created_after, '创建时间起点（筛选条件）' 
-    parameter :created_before, '创建时间终点（筛选条件）'
+    parameter :happen_after, '创建时间起点（筛选条件）' 
+    parameter :happen_before, '创建时间终点（筛选条件）'
     with_options :scope => :data do
       response_field :id, 'ID'
       response_field :amount, "金额（单位：分）"
     end
-    let(:created_after) { Time.now - 10.days }
-    let(:created_before) { Time.now + 10.days }
+    let(:happen_after) { Time.now - 10.days }
+    let(:happen_before) { Time.now + 10.days }
     example "获取账目" do
       tag = create :tag, user: current_user
       create_list :item, Item.default_per_page + 1, tag_ids: [tag.id], user: current_user
