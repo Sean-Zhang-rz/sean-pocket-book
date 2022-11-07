@@ -1,6 +1,7 @@
 user=mangosteen
 root=/home/$user/deploys/$version
 container_name=mangosteen-prod-1
+nginx_container_name=mangosteen-nginx-1
 db_container_name=db-for-mangosteen
 
 function set_env {
