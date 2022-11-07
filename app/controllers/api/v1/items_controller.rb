@@ -2,8 +2,11 @@ class Api::V1::ItemsController < ApplicationController
   def index
     current_user_id = request.env['current_user_id']
     return head :unauthorized if current_user_id.nil?
+
+    after = datetime_with_zone(params[:happen_after]) - 1.second
+    before = datetime_with_zone(params[:happen_before]) + 1.day - 1.second
     items = Item.where({user_id: current_user_id})
-      .where({happen_at: params[:happen_after]..params[:happen_before]})
+      .where(happen_at: (after..before))
     items = items.where(kind: params[:kind]) unless params[:kind].blank?
     items = items.page(params[:page])
     initValue = {expenses:0, income:0}
